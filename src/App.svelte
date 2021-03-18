@@ -8,7 +8,9 @@
     let prolog= getOrElse(url, 'prolog', 'main.')
     let query= getOrElse(url, 'query', 'main.')
     let limit= parseInt(getOrElse(url, 'limit', '1000'))
-	let tabs = ['Result', 'HTML', 'CSS', 'Prolog', 'MISC']
+	let ready = true
+	const handleInput = () => ready = true
+	const tabs = ['Result', 'HTML', 'CSS', 'Prolog', 'MISC']
 	let tab = 'Result'
 	$: srcDoc = template({html, css, prolog, query, limit})
 	$: {
@@ -45,6 +47,24 @@
 	.tab.active {
 		border-color: olivedrab;
 	}
+	.ready {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	.ready button {
+		color: transparent;
+		background: transparent;
+		width: 0;
+		height: 0;
+		border-top: 30px solid transparent;
+		border-bottom: 30px solid transparent;
+		border-left: 60px solid olivedrab;
+		border-right: none;
+	}
+	.ready button:hover {
+		border-left: 60px solid olive;
+	}
 	textarea {
 		padding: 5px;
 		font-family: 'Courier New', Courier, monospace;
@@ -62,11 +82,11 @@
 		border: 1px solid lightgray;
 		border-radius: 3px;
 	}
-	form label {
-		display: block;
-	}
 	form input {
+		display: block;
 		width: 100%;
+		border: 1px solid lightgray;
+		border-radius: 3px
 	}
 </style>
 
@@ -83,17 +103,21 @@
 		{#if tab === 'MISC'}
 		<form>
 			<label>URL<br /><input readonly value={url.toString()} /></label>
-			<label>Query<br /><input bind:value={query} /></label>
-			<label>Limit<br /><input bind:value={limit} /></label>
+			<label>Query<br /><input type="text" bind:value={query} on:input={handleInput} /></label>
+			<label>Limit<br /><input type="number" bind:value={limit} on:input={handleInput} /></label>
 		</form>
 		{:else if tab === 'HTML'}
-		<textarea bind:value={html} />
+		<textarea bind:value={html} on:input={handleInput}/>
 		{:else if tab === 'CSS'}
-		<textarea bind:value={css} />
+		<textarea bind:value={css} on:input={handleInput}/>
 		{:else if tab === 'Prolog'}
-		<textarea bind:value={prolog} />
-		{:else}
+		<textarea bind:value={prolog} on:input={handleInput}/>
+		{:else if tab === 'Result' && !ready}
 		<iframe title="Result" {srcDoc} />
+		{:else if tab === 'Result' && ready}
+		<div class="ready">
+			<button on:click={()=>ready=false} />
+		</div>
 		{/if}
 	</div>
 </div>
