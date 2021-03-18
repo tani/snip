@@ -4,7 +4,7 @@
   		url?.searchParams.has(key) ? url.searchParams.get(key) : defaultValue
 	let url = new URL(window.location.href)
 	let html = getOrElse(url, 'html', '<h1>Hello Prolog</h1>')
-    let css= getOrElse(url, 'css', 'h1 { color= red; }')
+    let css= getOrElse(url, 'css', 'h1 { color: red; }')
     let prolog= getOrElse(url, 'prolog', 'main.')
     let query= getOrElse(url, 'query', 'main.')
     let limit= parseInt(getOrElse(url, 'limit', '1000'))
