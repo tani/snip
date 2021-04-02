@@ -53,17 +53,14 @@
 		align-items: center;
 	}
 	.ready button {
-		color: transparent;
-		background: transparent;
-		width: 0;
-		height: 0;
-		border-top: 30px solid transparent;
-		border-bottom: 30px solid transparent;
-		border-left: 60px solid olivedrab;
-		border-right: none;
+		background-color: olivedrab;
+		border: none;
+		width: 50px;
+		height: 50px;
+		clip-path: polygon(0% 0%, 0% 100%, 100% 50%);
 	}
 	.ready button:hover {
-		border-left: 60px solid olive;
+		background-color: 60px solid olive;
 	}
 	textarea {
 		padding: 5px;
